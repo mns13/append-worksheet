@@ -15,26 +15,23 @@ $params = [
 
 $response = $service->spreadsheets->get($spreadsheetId, $params);
 
-$values = array();
-
 $rows = $response->getSheets()[0]->data[0]->rowData;
 
-for ($i=2; $i < count($rows); $i = $i+3) { 
+for ($i=2; $i < count($rows); $i = $i+3) {
+  $values = array();
 
     $data = $rows[$i]->values;
 
     foreach($data as $row){
 
       $values[0][] = $row->formattedValue;
-    // break;
 
     }
     
-    $requestBody = new Google_Service_Sheets_ValueRange(['values' => $values]);
-    $options = array( 'valueInputOption' => 'RAW' );
-    if($service->spreadsheets_values->append( $spreadsheetId, 'List2', $requestBody, $options )) echo 1;
+  $requestBody = new Google_Service_Sheets_ValueRange(['values' => $values]);
+  $options = array( 'valueInputOption' => 'RAW' );
+  if($service->spreadsheets_values->append( $spreadsheetId, 'List2', $requestBody, $options )) echo 1;
 
-    $values = array();
-  // break;
+  $values = array();
 
 }
